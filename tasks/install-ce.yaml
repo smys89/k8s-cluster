@@ -14,6 +14,11 @@
     state: absent
 
 - name: Setup Docker Repository
+  ansible.builtin.template:
+      src: kubeadm-init.yml.j2
+      dest: /root/kubeadm-init.yml
+
+- name: Setup Docker Repository
   ansible.builtin.dnf:
     name: yum-utils
     state: present
