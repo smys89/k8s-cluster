@@ -57,9 +57,9 @@
 - name: Update pause sandbox_image version
   ansible.builtin.replace:
     path: /etc/containerd/config.toml
-    regexp: '^(sandbox_image\s*=\s*).*'  # Match the line and capture the start
-    replace: '\1"{{ pause_image }}"'  # Replace the matched part with the new value
-    backup: yes  # Optional: creates a backup of the file
+    regexp: '^(sandbox_image\s*=\s*\"registry\.k8s\.io\/).*'
+    replace: '\1"{{ pause_image }}"'
+    backup: yes
 
 - name: Ensure Containerd is started and enabled
   ansible.builtin.systemd_service:
