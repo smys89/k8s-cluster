@@ -15,3 +15,11 @@
   tags: 
     - install-ce
     - all
+
+- include_tasks: 
+    file: install-kubectl.yaml
+    apply:
+      tags: kubectl
+  tags: 
+    - kubectl
+    - all
