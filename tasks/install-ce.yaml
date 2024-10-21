@@ -57,7 +57,7 @@
 - name: Update pause sandbox_image version
   ansible.builtin.replace:
     path: /etc/containerd/config.toml
-    regexp: '^(sandbox_image\s*=\s*\"registry\.k8s\.io\/).*'
+    regexp: '^\s*(sandbox_image\s*=\s*\"registry\.k8s\.io\/).*'
     replace: '\1"{{ pause_image }}"'
     backup: yes
 
