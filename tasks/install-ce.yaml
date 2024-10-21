@@ -41,7 +41,7 @@
     ansible.builtin.systemd_service:
       name: docker
       enabled: yes
-      state: started
+      state: restarted
 
 - name: Generate containerd default config
     ansible.builtin.shell: |
@@ -65,4 +65,4 @@
     ansible.builtin.systemd_service:
       name: containerd
       enabled: yes
-      state: started
+      state: restarted
