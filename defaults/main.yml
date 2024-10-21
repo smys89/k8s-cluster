@@ -1,6 +1,6 @@
 ---
 
-disable_firewall: no
+disable_firewall: yes
 
 pause_image: registry.k8s.io/pause:3.10
 
