@@ -4,4 +4,14 @@
     file: preflight.yaml
     apply:
       tags: preflight
-  tags: preflight
+  tags:
+    - preflight
+    - all
+
+- include_tasks: 
+    file: install-ce.yaml
+    apply:
+      tags: install-ce
+  tags: 
+    - install-ce
+    - all
