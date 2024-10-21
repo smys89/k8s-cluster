@@ -37,12 +37,6 @@
     state: present
     update_cache: yes
 
-- name: Ensure Docker is started and enabled
-  ansible.builtin.systemd_service:
-    name: docker
-    enabled: yes
-    state: restarted
-
 - name: Generate containerd default config
   ansible.builtin.shell: |
     containerd config default > /etc/containerd/config.toml
@@ -57,9 +51,15 @@
 - name: Update pause sandbox_image version
   ansible.builtin.replace:
     path: /etc/containerd/config.toml
-    regexp: '^(\\s*sandbox_image\\s*=\\s*\"registry\\.k8s\\.io\\/pause:[^\"]*\")'
-    replace: 'sandbox_image = "{{ pause_image }}"'
+    regexp: '^\s*(sandbox_image\s*=\s*).*'
+    replace: '\1"{{ pause_image }}"'
     backup: yes
+
+- name: Ensure Docker is started and enabled
+  ansible.builtin.systemd_service:
+    name: docker
+    enabled: yes
+    state: restarted
 
 - name: Ensure Containerd is started and enabled
   ansible.builtin.systemd_service:
