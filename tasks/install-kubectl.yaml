@@ -1,11 +1,19 @@
 ---
 
+- name: Setup Kubernetes Repository
+  ansible.builtin.template:
+      src: kubernetes.repo.j2
+      dest: /etc/yum.repos.d/kubernetes.repo
+      owner: root
+      group: root
+      mode: '0644'
+
 - name: Install kubelet kubeadm kubectl
   ansible.builtin.dnf: 
     name: 
-      - kubelet-{{ kubernetes_version }}
-      - kubeadm-{{ kubernetes_version }}
-      - kubectl-{{ kubernetes_version }}
+      - "kubelet-{{ kubernetes_version }}"
+      - "kubeadm-{{ kubernetes_version }}"
+      - "kubectl-{{ kubernetes_version }}"
     disable_excludes: kubernetes
     state: present
     update_cache: yes
