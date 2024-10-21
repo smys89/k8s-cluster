@@ -5,9 +5,11 @@
     name: "*"
     state: latest
     update_cache: true
+  register: dnf_update_result
 
 - name: Reboot
   ansible.builtin.reboot:
+  when: dnf_update_result.changed
 
 - name: Disable SWAP
   ansible.builtin.shell: swapoff -a
