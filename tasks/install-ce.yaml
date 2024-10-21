@@ -15,10 +15,54 @@
 
 - name: Setup Docker Repository
   ansible.builtin.template:
-      src: kubeadm-init.yml.j2
-      dest: /root/kubeadm-init.yml
+      src: docker-ce.repo.j2
+      dest: /etc/yum.repos.d/docker-ce.repo
+      owner: root
+      group: root
+      mode: '0644'
 
-- name: Setup Docker Repository
-  ansible.builtin.dnf:
-    name: yum-utils
+- name: Add Docker GPG key
+  ansible.builtin.rpm_key:
+    key: https://download.docker.com/linux/centos/gpg
     state: present
+
+- name: Install Containerd Engine
+  ansible.builtin.dnf:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+    update_cache: yes
+
+- name: Ensure Docker is started and enabled
+    ansible.builtin.systemd:
+      name: docker
+      enabled: yes
+      state: started
+
+- name: Generate containerd default config
+    ansible.builtin.shell: |
+      containerd config default > /etc/containerd/config.toml
+
+- name: Configure the systemd cgroup driver
+    ansible.builtin.replace:
+      path: /etc/containerd/config.toml
+      regexp: '(SystemdCgroup = )false'
+      replace: '\1true'
+      backup: yes   
+
+- name: Update pause sandbox_image version
+    ansible.builtin.replace:
+      path: /etc/containerd/config.toml
+      regexp: '^(sandbox_image\s*=\s*).*'  # Match the line and capture the start
+      replace: '\1"{{ pause_image }}"'  # Replace the matched part with the new value
+      backup: yes  # Optional: creates a backup of the file
+
+- name: Ensure Containerd is started and enabled
+    ansible.builtin.systemd:
+      name: containerd
+      enabled: yes
+      state: started
