@@ -1,14 +1,12 @@
 ---
 
 collections:
-    - name: community.general
-      source: https://github.com/ansible-collections/community.general
-      type: git
-
-    - name: community.crypto
-      source: https://github.com/ansible-collections/community.crypto
-      type: git
-
-    - name: ansible.posix
-      source: https://github.com/ansible-collections/ansible.posix
-      type: git
+  - name: http://gitea.k8scluster.net/smys/kubernetes.core.git
+    type: git
+    version: 5.0.0
+  - name: http://gitea.k8scluster.net/smys/community.docker.git
+    type: git
+    version: 3.13.1
+  - name: http://gitea.k8scluster.net/smys/community.library_inventory_filtering.git
+    type: git
+    version: 1.0.1
