@@ -38,31 +38,31 @@
     update_cache: yes
 
 - name: Ensure Docker is started and enabled
-    ansible.builtin.systemd_service:
-      name: docker
-      enabled: yes
-      state: restarted
+  ansible.builtin.systemd_service:
+    name: docker
+    enabled: yes
+    state: restarted
 
 - name: Generate containerd default config
-    ansible.builtin.shell: |
-      containerd config default > /etc/containerd/config.toml
+  ansible.builtin.shell: |
+    containerd config default > /etc/containerd/config.toml
 
 - name: Configure the systemd cgroup driver
-    ansible.builtin.replace:
-      path: /etc/containerd/config.toml
-      regexp: '(SystemdCgroup = )false'
-      replace: '\1true'
-      backup: yes   
+  ansible.builtin.replace:
+    path: /etc/containerd/config.toml
+    regexp: '(SystemdCgroup = )false'
+    replace: '\1true'
+    backup: yes   
 
 - name: Update pause sandbox_image version
-    ansible.builtin.replace:
-      path: /etc/containerd/config.toml
-      regexp: '^(sandbox_image\s*=\s*).*'  # Match the line and capture the start
-      replace: '\1"{{ pause_image }}"'  # Replace the matched part with the new value
-      backup: yes  # Optional: creates a backup of the file
+  ansible.builtin.replace:
+    path: /etc/containerd/config.toml
+    regexp: '^(sandbox_image\s*=\s*).*'  # Match the line and capture the start
+    replace: '\1"{{ pause_image }}"'  # Replace the matched part with the new value
+    backup: yes  # Optional: creates a backup of the file
 
 - name: Ensure Containerd is started and enabled
-    ansible.builtin.systemd_service:
-      name: containerd
-      enabled: yes
-      state: restarted
+  ansible.builtin.systemd_service:
+    name: containerd
+    enabled: yes
+    state: restarted
