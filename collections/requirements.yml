@@ -10,3 +10,7 @@ collections:
   - name: http://gitea.k8scluster.net/smys/community.library_inventory_filtering.git
     type: git
     version: 1.0.1
+  - name: http://gitea.k8scluster.net/smys/ansible.posix.git
+    type: git
+    version: 1.6.1
+    
