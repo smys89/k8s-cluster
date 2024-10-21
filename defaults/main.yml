@@ -2,6 +2,8 @@
 
 disable_firewall: no
 
+pause_image: registry.k8s.io/pause:3.10
+
 kubernetes_version: 1.27.3
 kubernetes_cri: containerd
 kubernetes_cni: flannel
