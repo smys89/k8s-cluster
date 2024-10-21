@@ -1,7 +1,7 @@
 ---
 
 - include_tasks: 
-    file: preflight.yml
+    file: preflight.yaml
     apply:
       tags: preflight
   tags: preflight
