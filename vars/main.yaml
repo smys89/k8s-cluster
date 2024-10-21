@@ -1,5 +1,7 @@
 ---
 
+pause_image: "registry.k8s.io/pause:3.10"
+
 cri_socket_paths:
   containerd: unix:///run/containerd/containerd.sock
   docker: unix:///var/run/dockershim.sock
