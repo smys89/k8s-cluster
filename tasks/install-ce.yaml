@@ -38,7 +38,7 @@
     update_cache: yes
 
 - name: Ensure Docker is started and enabled
-    ansible.builtin.systemd:
+    ansible.builtin.systemd_service:
       name: docker
       enabled: yes
       state: started
@@ -62,7 +62,7 @@
       backup: yes  # Optional: creates a backup of the file
 
 - name: Ensure Containerd is started and enabled
-    ansible.builtin.systemd:
+    ansible.builtin.systemd_service:
       name: containerd
       enabled: yes
       state: started
