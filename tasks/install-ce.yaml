@@ -46,8 +46,8 @@
 - name: Update pause sandbox_image version
   ansible.builtin.replace:
     path: /etc/containerd/config.toml
-    regexp: "^(.*sandbox\s*=\s*)(.*)$"
-    replace: "\1{{ pause_image }}"
+    regexp: '^(.*sandbox\s*=\s*)(.*)$''
+    replace: '\1"{{ pause_image }}"'
     backup: yes
 
 - name: Ensure Docker is started and enabled
