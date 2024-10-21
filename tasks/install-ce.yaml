@@ -21,11 +21,6 @@
       group: root
       mode: '0644'
 
-#- name: Add Docker GPG key
-#  ansible.builtin.rpm_key:
-#    key: https://download.docker.com/linux/centos/gpg
-#    state: present
-
 - name: Install Containerd Engine
   ansible.builtin.dnf:
     name:
