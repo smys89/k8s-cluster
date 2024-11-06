@@ -43,3 +43,11 @@
 - name: Apply sysctl params without reboot
   ansible.builtin.command: sysctl --system
   when: packet_forwarding_result.changed
+
+- name: Setup cluster hostnames in hosts file
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "{{ hostvars[item].ansible_host }} {{ item }}"
+    create: yes
+    state: present
+  loop: "{{ groups['all'] }}"
