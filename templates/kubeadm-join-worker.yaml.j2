@@ -1,0 +1,23 @@
+apiVersion: kubeadm.k8s.io/v1beta4
+caCertPath: /etc/kubernetes/pki/ca.crt
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: {{ groups['K8sMaster'][0] }}:{{ kubernetes_api_port }}
+    token: {{ kubeadm_token }}
+    unsafeSkipCAVerification: true
+  tlsBootstrapToken: abcdef.0123456789abcdef
+kind: JoinConfiguration
+nodeRegistration:
+  criSocket: {{ cri_socket_paths[kubernetes_cri] }}
+  imagePullPolicy: IfNotPresent
+  imagePullSerial: true
+  name: {{ ansible_hostname|lower }}
+  taints: null
+timeouts:
+  controlPlaneComponentHealthCheck: 4m0s
+  discovery: 5m0s
+  etcdAPICall: 2m0s
+  kubeletHealthCheck: 4m0s
+  kubernetesAPICall: 1m0s
+  tlsBootstrap: 5m0s
+  upgradeManifests: 5m0s
