@@ -23,3 +23,19 @@
   tags: 
     - kubectl
     - all
+
+- include_tasks: 
+    file: init-cluster.yaml
+    apply:
+      tags: kubeinit
+  tags: 
+    - kubeinit
+    - all
+
+- include_tasks: 
+    file: join-cluster.yaml
+    apply:
+      tags: kubejoin
+  tags: 
+    - kubejoin
+    - all
