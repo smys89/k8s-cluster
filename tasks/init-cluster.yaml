@@ -1,0 +1,29 @@
+---
+
+- name: render kubeadm-init.yaml
+  ansible.builtin.template:
+    src: kubeadm-init.yaml.j2
+    dest: /root/kubeadm-init.yaml
+
+- name: Initialize Kubernetes cluster using kubeadm
+  ansible.builtin.shell: kubeadm init --config /root/kubeadm-init.yaml
+  register: kubeadm_init_output
+
+- name: Capture kubeadm join command from output
+  ansible.builtin.set_fact:
+    kubeadm_join_command: "{{ (kubeadm_init_output.stdout | regex_search('kubeadm join[\\s\\S]+--discovery-token-ca-cert-hash\\s+\\S+', multiline=True)) | default('') }}"
+    
+- name: Save kubeadm join command to file
+  ansible.builtin.copy:
+    dest: /root/kubeadm_join_command.sh
+    content: "{{ kubeadm_join_command }}"
+    mode: '0700'
+
+- name: Set KUBECONFIG environment variable for root user
+  ansible.builtin.lineinfile:
+    path: /root/.bashrc
+    line: "export KUBECONFIG=/etc/kubernetes/admin.conf"
+    create: yes
+
+- include_tasks: 
+    file: install-cni.yaml
