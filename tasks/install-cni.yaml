@@ -1,0 +1,12 @@
+---
+
+- name: Install the Tigera Calico operator and custom resource definitions
+  ansible.builtin.shell: kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.0/manifests/tigera-operator.yaml
+
+- name: Render Calico manifest from template
+  ansible.builtin.template:
+    src: calico-custom-resources.yaml.j2
+    dest: /tmp/calico-custom-resources.yaml
+
+- name: Apply Calico manifest
+  ansible.builtin.shell: kubectl apply -f /tmp/calico-custom-resources.yaml
