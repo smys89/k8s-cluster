@@ -1,0 +1,43 @@
+---
+
+- name: Create kubeadm token for joining nodes with 24h expiration (default)
+  command: "kubeadm token create"
+  register: temp_token
+  delegate_to: "{{ groups['K8sMaster'][0] }}"
+  run_once: true
+  when: kubeadm_token is not defined
+  changed_when: false
+
+- name: Set kubeadm_token to generated token
+  set_fact:
+    kubeadm_token: "{{ temp_token.stdout }}"
+  when: kubeadm_token is not defined
+
+- name: render kubeadm-join-worker.yaml
+  ansible.builtin.template:
+    src: kubeadm-join-worker.yaml.j2
+    dest: /root/kubeadm-join-worker.yaml
+
+- name: Cluster join - worker
+  ansible.builtin.command: kubeadm join --config /root/kubeadm-join-worker.yaml
+  register: kubeadm_join
+  changed_when: kubeadm_join is success
+
+#- name: Fetch kubeadm join command from control plane
+#  ansible.builtin.fetch:
+#    src: /root/kubeadm_join_command.sh
+#    dest: /tmp/kubeadm_join_command.sh
+#    flat: yes
+#  delegate_to: "{{ groups['K8sMaster'][0] }}"
+
+#- name: Copy kubeadm join command to worker nodes
+#  ansible.builtin.copy:
+#    src: /tmp/kubeadm_join_command.sh
+#    dest: /tmp/kubeadm_join_command.sh
+#    mode: '0755'
+
+#- name: Run kubeadm join command
+#  ansible.builtin.shell: /tmp/kubeadm_join_command.sh
+#  args:
+#    executable: /bin/bash
+  
