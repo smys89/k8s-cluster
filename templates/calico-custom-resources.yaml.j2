@@ -7,6 +7,7 @@ kind: Installation
 metadata:
   name: default
 spec:
+  registry: "{{docker_registry_url}}docker.io/"
   # Configures Calico networking.
   calicoNetwork:
     ipPools:
