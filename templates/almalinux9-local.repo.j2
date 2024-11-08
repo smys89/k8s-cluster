@@ -1,0 +1,21 @@
+[baseos]
+name=AlmaLinux $releasever - BaseOS
+# mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/baseos
+baseurl={{almalinux9_baseos_repo_baseurl}}
+enabled=1
+gpgcheck=0
+countme=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux-9
+metadata_expire=86400
+enabled_metadata=1
+
+[appstream]
+name=AlmaLinux $releasever - AppStream
+# mirrorlist=https://mirrors.almalinux.org/mirrorlist/$releasever/appstream
+baseurl={{almalinux9_appstream_repo_baseurl}}
+enabled=1
+gpgcheck=0
+countme=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux-9
+metadata_expire=86400
+enabled_metadata=1
