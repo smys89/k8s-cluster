@@ -26,6 +26,7 @@
     name: firewalld 
     state: stopped 
     enabled: false
+    masked: yes
   when: disable_firewall
     
 - name: Put SELinux in permissive mode, logging actions that would be blocked.
