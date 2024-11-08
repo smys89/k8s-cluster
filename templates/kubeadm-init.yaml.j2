@@ -33,7 +33,8 @@ certificateValidityPeriod: 8760h0m0s
 certificatesDir: /etc/kubernetes/pki
 clusterName: kubernetes
 controllerManager: {}
-dns: {}
+dns:
+  imageRepository: "{{ docker_registry_url }}registry.k8s.io/coredns"
 encryptionAlgorithm: RSA-2048
 etcd:
   local:

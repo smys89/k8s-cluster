@@ -1,5 +1,11 @@
 ---
 
+- name: Configure local yum repos on all nodes
+  import_tasks: setup-local-repo.yaml
+  tags:
+    - preflight
+    - all
+    
 - name: Pre-flight configuration for all nodes
   import_tasks: preflight.yaml
   tags:

@@ -2,13 +2,25 @@
 
 disable_firewall: yes
 
-pause_image: registry.k8s.io/pause:3.10
-kubernetes_image_repository: "registry.k8s.io"
+#Local Repo Values
+almalinux9_baseos_repo_baseurl: http://192.168.163.160/repo/al9/baseos
+almalinux9_appstream_repo_baseurl: http://192.168.163.160/repo/al9/appstream
+kubernetes_repo_baseurl: http://192.168.163.160/repo/kubernetes
+docker_ce_stable_baseurl: http://192.168.163.160/repo/docker-ce-stable
+
+#Docker registry details
+docker_registry_hostname: harbor.k8scluster.net #if ingress is not used, set custom DNS name
+docker_registry_ip: 192.168.163.131
+docker_registry_url: "{{docker_registry_hostname}}/library/"
+
+kubernetes_pause_image: "{{docker_registry_url}}registry.k8s.io/pause:3.10"
+
+kubernetes_image_repository: "{{docker_registry_url}}registry.k8s.io"
 
 kubernetes_repo_version: 1.31
-kubernetes_version: 1.31.1
+kubernetes_version: 1.31.2
 kubernetes_cri: containerd
-kubernetes_cni: flannel
+kubernetes_cni: calico
 kubernetes_dns_domain: cluster.local
 kubernetes_pod_subnet: 10.244.0.0/16
 #kubernetes_pod_subnet: 10.96.0.0/12

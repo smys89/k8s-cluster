@@ -51,3 +51,22 @@
     create: yes
     state: present
   loop: "{{ groups['all'] }}"
+
+- name: Add Docker Registry DNS in hosts file
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "{{ docker_registry_ip }} {{ docker_registry_hostname }}"
+    create: yes
+    state: present
+
+- name: Import Docker Registry CA SSL Certificate
+  ansible.builtin.template:
+    src: harbor-ca.crt.j2
+    dest: /etc/pki/ca-trust/source/anchors/harbor-ca.crt
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Update CA trust after importing CA cert
+  ansible.builtin.shell: update-ca-trust
+

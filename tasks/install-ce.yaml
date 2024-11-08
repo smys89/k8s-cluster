@@ -13,14 +13,6 @@
       - docker-engine
     state: absent
 
-- name: Setup Docker Repository
-  ansible.builtin.template:
-      src: docker-ce.repo.j2
-      dest: /etc/yum.repos.d/docker-ce.repo
-      owner: root
-      group: root
-      mode: '0644'
-
 - name: Install Containerd Engine
   ansible.builtin.dnf:
     name:
@@ -47,17 +39,26 @@
   ansible.builtin.replace:
     path: /etc/containerd/config.toml
     regexp: '^(.*sandbox_image\s*=\s*)(.*)$'
-    replace: '\1"{{ pause_image }}"'
+    replace: '\1"{{ kubernetes_pause_image }}"'
     backup: yes
+
+- name: Enable insecure Docker local registry
+  ansible.builtin.template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: '0644'
 
 - name: Ensure Docker is started and enabled
   ansible.builtin.systemd_service:
     name: docker
-    enabled: yes
+    enabled: true
     state: restarted
 
 - name: Ensure Containerd is started and enabled
   ansible.builtin.systemd_service:
     name: containerd
-    enabled: yes
+    enabled: true
     state: restarted
+

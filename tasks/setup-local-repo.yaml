@@ -1,0 +1,39 @@
+---
+
+- name: Create repo archive directory
+  ansible.builtin.file:
+    path: /etc/yum.repos.d/archive
+    state: directory
+    mode: '0755'
+
+- name: Move existing repo files to archive folder
+  ansible.builtin.shell: mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/archive/
+  args:
+    removes: /etc/yum.repos.d/*.repo  # Ensures idempotency
+
+- name: Setup Local AlmaLinux 9 Repository
+  ansible.builtin.template:
+    src: almalinux9-local.repo.j2
+    dest: /etc/yum.repos.d/almalinux9-local.repo
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Setup Local Docker Repository
+  ansible.builtin.template:
+    src: docker-ce-local.repo.j2
+    dest: /etc/yum.repos.d/docker-ce-local.repo
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Setup Local Kubernetes Repository
+  ansible.builtin.template:
+    src: kubernetes-local.repo.j2
+    dest: /etc/yum.repos.d/kubernetes-local.repo
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Clean repo cache
+  ansible.builtin.shell: dnf clean all
