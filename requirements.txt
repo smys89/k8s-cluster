@@ -24,7 +24,7 @@ docker image save registry.k8s.io/coredns/coredns:v1.11.3 > coredns_v1.11.3.tar
 docker image save registry.k8s.io/pause:3.10 > pause_3.10.tar
 docker image save registry.k8s.io/etcd:3.5.15-0 > etcd_3.5.15-0.tar
 
-#Ansible AWX Survey exaple
+#Ansible AWX Survey example
 
 /tmp/kube-images/
 coredns_v1.11.3.tar,etcd_3.5.15-0.tar,kube-apiserver_v1.31.2.tar,kube-controller-manager_v1.31.2.tar,kube-proxy_v1.31.2.tar,kube-scheduler_v1.31.2.tar,pause_3.10.tar
@@ -53,7 +53,7 @@ docker image save docker.io/calico/pod2daemon-flexvol:v3.29.0 > pod2daemon-flexv
 docker image save docker.io/calico/cni:v3.29.0 > cni_v3.29.0.tar
 docker image save docker.io/calico/csi:v3.29.0 > csi_v3.29.0.tar
 
-#Ansible AWX Survey exaple
+#Ansible AWX Survey example
 
 /tmp/calico/
 operator_v1.36.0.tar,apiserver_v3.29.0.tar,kube-controllers_v3.29.0.tar,node-driver-registrar_v3.29.0.tar,node_v3.29.0.tar,typha_v3.29.0.tar,pod2daemon-flexvol_v3.29.0.tar,cni_v3.29.0.tar,csi_v3.29.0.tar
