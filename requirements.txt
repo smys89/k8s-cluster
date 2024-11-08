@@ -1,0 +1,69 @@
+#Download Yum repos
+
+reposync --repoid=baseos --download-path=/var/www/html/repo/al9 --download-metadata
+reposync --repoid=appstream --download-path=/var/www/html/repo/al9 --download-metadata
+reposync --repoid=docker-ce-stable --download-path=/tmp/docker-ce-stable --download-metadata
+reposync --repoid=kubernetes --download-path=/tmp/kubernetes --download-metadata --disable-excludes=kubernetes
+
+
+#Download Kubernetes Images
+
+docker image pull registry.k8s.io/kube-apiserver:v1.31.2
+docker image pull registry.k8s.io/kube-controller-manager:v1.31.2
+docker image pull registry.k8s.io/kube-scheduler:v1.31.2
+docker image pull registry.k8s.io/kube-proxy:v1.31.2
+docker image pull registry.k8s.io/coredns/coredns:v1.11.3
+docker image pull registry.k8s.io/pause:3.10
+docker image pull registry.k8s.io/etcd:3.5.15-0
+
+docker image save registry.k8s.io/kube-apiserver:v1.31.2 > kube-apiserver_v1.31.2.tar
+docker image save registry.k8s.io/kube-controller-manager:v1.31.2 > kube-controller-manager_v1.31.2.tar
+docker image save registry.k8s.io/kube-scheduler:v1.31.2 > kube-scheduler_v1.31.2.tar
+docker image save registry.k8s.io/kube-proxy:v1.31.2 > kube-proxy_v1.31.2.tar
+docker image save registry.k8s.io/coredns/coredns:v1.11.3 > coredns_v1.11.3.tar
+docker image save registry.k8s.io/pause:3.10 > pause_3.10.tar
+docker image save registry.k8s.io/etcd:3.5.15-0 > etcd_3.5.15-0.tar
+
+#Ansible AWX Survey exaple
+
+/tmp/kube-images/
+coredns_v1.11.3.tar,etcd_3.5.15-0.tar,kube-apiserver_v1.31.2.tar,kube-controller-manager_v1.31.2.tar,kube-proxy_v1.31.2.tar,kube-scheduler_v1.31.2.tar,pause_3.10.tar
+registry.k8s.io/coredns,registry.k8s.io/etcd,registry.k8s.io/kube-apiserver,registry.k8s.io/kube-controller-manager,registry.k8s.io/kube-proxy,registry.k8s.io/kube-scheduler,registry.k8s.io/pause
+v1.11.3,3.5.15-0,v1.31.2,v1.31.2,v1.31.2,v1.31.2,3.10
+
+#Calico Docker Images
+
+docker image pull quay.io/tigera/operator:v1.36.0
+docker image pull docker.io/calico/kube-controllers:v3.29.0
+docker image pull docker.io/calico/node:v3.29.0
+docker image pull docker.io/calico/typha:v3.29.0
+docker image pull docker.io/calico/node-driver-registrar:v3.29.0
+docker image pull docker.io/calico/apiserver:v3.29.0
+docker image pull docker.io/calico/pod2daemon-flexvol:v3.29.0
+docker image pull docker.io/calico/cni:v3.29.0
+docker image pull docker.io/calico/csi:v3.29.0
+
+docker image save quay.io/tigera/operator:v1.36.0 > operator_v1.36.0.tar
+docker image save docker.io/calico/kube-controllers:v3.29.0 > kube-controllers_v3.29.0.tar
+docker image save docker.io/calico/node:v3.29.0 > node_v3.29.0.tar
+docker image save docker.io/calico/typha:v3.29.0 > typha_v3.29.0.tar
+docker image save docker.io/calico/node-driver-registrar:v3.29.0 > node-driver-registrar_v3.29.0.tar
+docker image save docker.io/calico/apiserver:v3.29.0 > apiserver_v3.29.0.tar
+docker image save docker.io/calico/pod2daemon-flexvol:v3.29.0 > pod2daemon-flexvol_v3.29.0.tar
+docker image save docker.io/calico/cni:v3.29.0 > cni_v3.29.0.tar
+docker image save docker.io/calico/csi:v3.29.0 > csi_v3.29.0.tar
+
+#Ansible AWX Survey exaple
+
+/tmp/calico/
+operator_v1.36.0.tar,apiserver_v3.29.0.tar,kube-controllers_v3.29.0.tar,node-driver-registrar_v3.29.0.tar,node_v3.29.0.tar,typha_v3.29.0.tar,pod2daemon-flexvol_v3.29.0.tar,cni_v3.29.0.tar,csi_v3.29.0.tar
+quay.io/tigera/operator,docker.io/calico/apiserver,docker.io/calico/kube-controllers,docker.io/calico/node-driver-registrar,docker.io/calico/node,docker.io/calico/typha,docker.io/calico/pod2daemon-flexvol,docker.io/calico/cni,docker.io/calico/csi
+v1.36.0,v3.29.0,v3.29.0,v3.29.0,v3.29.0,v3.29.0,v3.29.0,v3.29.0,v3.29.0
+
+
+#Pulling/pushing from/to insecure git repo
+
+GIT_SSL_NO_VERIFY=true git pull https://gitea.k8scluster.net/smys/k8s-cluster.git
+git add .
+git commit -m "updated tigera-operator.yaml"
+GIT_SSL_NO_VERIFY=true git push -u origin main
