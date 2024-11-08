@@ -1,41 +1,31 @@
 ---
 
-- include_tasks: 
-    file: preflight.yaml
-    apply:
-      tags: preflight
+- name: Pre-flight configuration for all nodes
+  import_tasks: preflight.yaml
   tags:
     - preflight
     - all
 
-- include_tasks: 
-    file: install-ce.yaml
-    apply:
-      tags: install-ce
+- name: Install Container Engine on all nodes
+  import_tasks: install-ce.yaml
   tags: 
     - install-ce
     - all
 
-- include_tasks: 
-    file: install-kubectl.yaml
-    apply:
-      tags: kubectl
+- name: Install Kubectl on all nodes
+  import_tasks: install-kubectl.yaml
   tags: 
     - kubectl
     - all
 
-- include_tasks: 
-    file: init-cluster.yaml
-    apply:
-      tags: kubeinit
+- name: Initialize K8s cluster on control plane node(s) 
+  import_tasks: init-cluster.yaml
   tags: 
     - kubeinit
     - all
 
-- include_tasks: 
-    file: join-cluster.yaml
-    apply:
-      tags: kubejoin
+- name: Join worker nodes to the K8s cluster
+  import_tasks: join-cluster.yaml
   tags: 
     - kubejoin
     - all
